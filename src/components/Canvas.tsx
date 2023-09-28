@@ -1,16 +1,14 @@
 'use client'
-import React, {useRef} from 'react'
+import React, {useEffect, useLayoutEffect, useRef} from 'react'
 import { useDraw } from '@/hooks/useDraw'
 type Props = {}
 
 export default function Canvas({}: Props) {
-    const ref = useDraw();
-    if(!ref?.canvaRef) return;
-  
+  const canvaRef = useDraw();
 
   return (
     <canvas 
-        ref={ref.canvaRef}
-    />
+        ref={canvaRef}
+    ></canvas>
   )
 }

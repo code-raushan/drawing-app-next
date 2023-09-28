@@ -13,7 +13,7 @@ type Props = {}
 function NavContainer({ }: Props) {
     const [menu, setMenu]=useState(true)
     return (
-        <section className='flex justify-between mt-3 mx-4'>
+        <section className='absolute top-2 left-1 right-1 flex justify-between mt-3 mx-4'>
             <Button variant={'outline'} className='mt-2' onClick={()=>setMenu(!menu)}>
               {!menu ? <Menu />:  <X />} 
             </Button>
