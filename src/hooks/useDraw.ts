@@ -1,14 +1,26 @@
 'use client'
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { Context } from "@/utils/Context";
+import { useContext, useEffect, useLayoutEffect, useRef } from "react";
 
 export const useDraw = () =>{
+    const {color, lineWidth, eraser, eraserColor, eraserWidth} = useContext(Context);
     const canvaRef = useRef<null | HTMLCanvasElement>(null);
     const mouseDown = useRef(false);
+
+    useEffect(()=>{
+      if(!canvaRef.current) return;
+      const canvas = canvaRef.current;
+      const ctx = canvas.getContext('2d');
+      if(!ctx) return;
+      ctx.strokeStyle = eraser? eraserColor : color;
+      ctx.lineWidth = eraser? eraserWidth : lineWidth;
+      console.log(eraserWidth)
+    }, [lineWidth, color, eraser, eraserWidth])
+    
     useLayoutEffect(()=>{
       if(!canvaRef.current) return;
       const canvas = canvaRef.current;
       const ctx = canvas.getContext('2d');
-
       canvas.height = window.innerHeight;
       canvas.width = window.innerWidth;
 
@@ -25,11 +37,11 @@ export const useDraw = () =>{
         mouseDown.current = true;
       if (!ctx) return;
 
-      ctx.strokeStyle = 'red';
-      ctx.lineWidth = 2;
+     
       ctx.beginPath();
       const { x, y } = getCanvasCoordinates(e);
       ctx.moveTo(x, y);
+
       }
 
       function handleMouseMove(e: MouseEvent) {
@@ -52,7 +64,6 @@ export const useDraw = () =>{
         canvas.removeEventListener('mousemove', handleMouseMove);
         canvas.removeEventListener('mouseup', handleMouseUp);
       }
-
     }, [])
   
 
